@@ -1,0 +1,2 @@
+mongodb pass : 4ZEexsKzLrVFJqjn
+username  : shadow 
