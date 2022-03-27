@@ -6,10 +6,14 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder as LE
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.corpus import stopwords
-
+import numpy as np
 import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
 from nltk.corpus import stopwords
+from translate import Translator
 
+import random
 
 def get_database():
     from pymongo import MongoClient
@@ -30,8 +34,11 @@ def get_database():
 dbname = get_database()
 
 collection_name = dbname["chat"]
+collection_name2 = dbname["disscussion"]
 
 data = pd.DataFrame.from_records(collection_name.find())
+data2 = pd.DataFrame.from_records(collection_name2.find())
+data['Class'] = data['Class'].replace(np.nan,"accounts")
 
 questions = data['Question'].values
 questions
@@ -74,7 +81,7 @@ model.fit(trainx, trainy)
 
 class_ = le.inverse_transform(model.predict(X))
 
-print("SVC:", model.score(testx, testy))
+
 
 
 def get_max5(arr):
@@ -113,10 +120,10 @@ def get_response(usrText):
 
         t_usr = tfv.transform([cleanup(usrText.strip().lower())])
         class_ = le.inverse_transform(model.predict(t_usr))
-        print(class_)
+
 
         questionset = data[data['Class'].values == class_]
-        print(questionset)
+
         cos_sims = []
         for question in questionset['Question']:
             sims = cosine_similarity(tfv.transform([question]), t_usr)
@@ -128,7 +135,7 @@ def get_response(usrText):
         b = [questionset.index[ind]]
 
         if usrText.lower() in a:
-            return ("Hi, I'm Personal Chatbot!\U0001F60A")
+            return ("Hi, I'm your Personal Chatbot you can ask a bunch of things!")
 
         if usrText.lower() in c:
             return "Ok...Alright!\U0001F64C"
@@ -173,7 +180,7 @@ def get_response2(usr):
         sims = cosine_similarity(tfv.transform([question]), t_usr)
 
         cos_sims.append(sims)
-        print(max(cos_sims))
+
 
     ind = cos_sims.index(max(cos_sims))
 
@@ -189,16 +196,22 @@ def get_response2(usr):
         return ("\U0001F44D")
 
     if max(cos_sims) == [[0.]]:
-        return "I'm not able to solve this question at this moment. You can call to customer support 1860 999 9999 \U0001F615"
+        b ="<br>" + "1)" + data['Question'][random.randint(100, 1509)]
+        c ="<br>" + "\n2)" + data['Question'][random.randint(100, 1509)]
+        d ="<br>" + "\n3)" + data['Question'][random.randint(100, 1509)]
+        e ="<br>" + "\n4)" + data['Question'][random.randint(100, 1509)]
+        f = "<br>" +"\n5)" + data['Question'][random.randint(100, 1509)]
+
+        return "Hello , You can ask me a bunch of question here is some examples of question people ask \U0001f604:            " + b + c + d + e + f
 
     if max(cos_sims) > [[0.]]:
         inds = get_max5(cos_sims)
         print(inds)
 
-        b = "1)" + data['Question'][questionset.index[0]]
-        c = "\n2)" + data['Question'][questionset.index[1]]
-        d = "\n3)" + data['Question'][questionset.index[2]]
-        e = "\n4)" + data['Question'][questionset.index[3]]
-        f = "\n5)" + data['Question'][questionset.index[4]]
+        b = "1)" + data['Question'][questionset.index[140]]
+        c = "\n2)" + data['Question'][questionset.index[150]]
+        d = "\n3)" + data['Question'][questionset.index[200]]
+        e = "\n4)" + data['Question'][questionset.index[230]]
+        f = "\n5)" + data['Question'][questionset.index[214]]
 
         return "Following are the Recommended Questions:" + b + c + d + e + f

@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
   <title>Banking Chatbot</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
+
 <body>
   <!-- partial:index.partial.html -->
+       <a  alt="HTML tutorial" {{ url_for('hello_world2') }}> <img class="nadia"  width=20% src="{{ url_for('static', filename='img/giphy.gif') }}" ></a>
+
+
   <section class="msger">
+
     <header class="msger-header">
       <div class="msger-header-title">
-        <i class="fas fa-bank"></i> Your Personnal assistant
+        <i class="fas fa-book"></i> Your Personnal assistant
       </div>
     </header>
     <main class="msger-chat">
@@ -95,7 +103,7 @@
 </html>
 <style>
  :root {
-  --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --body-bg: linear-gradient(135deg, #080615 0%, #080615 100%);
   --msger-bg: #fff;
   --border: 2px solid #ddd;
   --left-msg-bg: #ececec;
@@ -139,7 +147,7 @@ body {
   padding: 10px;
   text-align: center;
   border-bottom: var(--border);
-  background: #390f9c;
+  background: #080615;
   color: white;
 }
 .msger-chat {
@@ -233,6 +241,15 @@ body {
 }
 .msger-chat {
   background-color: #fcfcfe;
-  background-image: url("{{ url_for('static', filename='img/back.jpg') }}");
+  background-image: url("{{ url_for('static', filename='back.jpg') }}");
+}
+.nadia
+{
+   margin: 0;
+  position: absolute;
+  top: 20%;
+  left: 88%;
+  transform: translate(-50%, -50%);
+
 }
 </style>
